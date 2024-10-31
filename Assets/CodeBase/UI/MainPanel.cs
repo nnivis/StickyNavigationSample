@@ -6,6 +6,5 @@ namespace CodeBase.UI
     {
         [SerializeField] private StickyScrollView _stickyScrollView;
         private void Start() => _stickyScrollView.Initialize();
-        private void Update() => _stickyScrollView.UpdateStickyElementPosition();
     }
 }

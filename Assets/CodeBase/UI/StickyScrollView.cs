@@ -14,9 +14,11 @@ namespace CodeBase.UI
         private Vector2 _defaultPosition;
         private int _index;
 
-        public void Initialize() => SetDefaultInfo();
-
-        public void UpdateStickyElementPosition() => HandleStickyElementPosition();
+        public void Initialize()
+        {
+            SetDefaultInfo();
+            _scrollRect.onValueChanged.AddListener(_ => HandleStickyElementPosition());
+        }
 
         private void SetDefaultInfo()
         {
@@ -27,11 +29,8 @@ namespace CodeBase.UI
 
         private void HandleStickyElementPosition()
         {
-            Vector3[] element1Corners = new Vector3[4];
-            _element1.GetWorldCorners(element1Corners);
-
-            Vector3[] viewportCorners = new Vector3[4];
-            _scrollRect.viewport.GetWorldCorners(viewportCorners);
+            var element1Corners = GetCorners(_element1);
+            var viewportCorners = GetViewportCorners();
 
             if (element1Corners[0].y < viewportCorners[1].y)
                 UnAttachStickyElement();
@@ -39,13 +38,49 @@ namespace CodeBase.UI
                 AttachStickyElement();
         }
 
-        private void AttachStickyElement() => _stickyElement.transform.SetParent(_stickyParent);
+        private void AttachStickyElement()
+        {
+            if (_stickyElement.transform.parent != _stickyParent)
+            {
+                _stickyElement.transform.SetParent(_stickyParent);
+                ClampToViewportTop();
+            }
+        }
 
         private void UnAttachStickyElement()
         {
-            _stickyElement.transform.SetParent(_defaultParent);
-            _stickyElement.transform.SetSiblingIndex(_index);
-            _stickyElement.anchoredPosition = _defaultPosition;
+            if (_stickyElement.transform.parent != _defaultParent)
+            {
+                _stickyElement.transform.SetParent(_defaultParent);
+                _stickyElement.transform.SetSiblingIndex(_index);
+                _stickyElement.anchoredPosition = _defaultPosition;
+            }
+        }
+
+        private void ClampToViewportTop()
+        {
+            var viewportCorners = GetViewportCorners();
+            var stickyElementCorners = GetCorners(_stickyElement);
+
+            if (stickyElementCorners[1].y > viewportCorners[1].y)
+            {
+                float offsetY = stickyElementCorners[1].y - viewportCorners[1].y;
+                _stickyElement.anchoredPosition -= new Vector2(0, offsetY);
+            }
+        }
+
+        private Vector3[] GetCorners(RectTransform element)
+        {
+            Vector3[] element1Corners = new Vector3[4];
+            element.GetWorldCorners(element1Corners);
+            return element1Corners;
+        }
+
+        private Vector3[] GetViewportCorners()
+        {
+            Vector3[] viewportCorners = new Vector3[4];
+            _scrollRect.viewport.GetWorldCorners(viewportCorners);
+            return viewportCorners;
         }
     }
 }
