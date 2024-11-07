@@ -22,5 +22,17 @@ namespace CodeBase.Services.Orientation
                 OrientationController.FireOrientationChanged(this, true);
             }
         }   
+        
+        private void HandleOrientationForPhone()
+        {
+            bool isDeviceVertical = Input.deviceOrientation == DeviceOrientation.Portrait || 
+                                    Input.deviceOrientation == DeviceOrientation.PortraitUpsideDown;
+
+            if (OrientationController.IsVertical != isDeviceVertical)
+            {
+                OrientationController.FireOrientationChanged(this, isDeviceVertical);
+            }
+        }
+
     }
 }
