@@ -20,6 +20,7 @@
     <property name="Discover.Launch.Via.Unity" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="TODO_SCOPE" value="All Places" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="rider.run.widget.enabled.cache" value="false" />
     <property name="vue.rearranger.settings.migration" value="true" />
@@ -55,7 +56,11 @@
       <option name="presentableId" value="Default" />
       <updated>1730386833782</updated>
       <workItem from="1730386843319" duration="5512000" />
-      <workItem from="1730995510092" duration="1016000" />
+      <workItem from="1730995510092" duration="1531000" />
+      <workItem from="1731344034742" duration="319000" />
+      <workItem from="1731350875208" duration="30000" />
+      <workItem from="1731436331765" duration="1438000" />
+      <workItem from="1731490455321" duration="7876000" />
     </task>
     <servers />
   </component>
